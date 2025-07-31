@@ -12,6 +12,10 @@ RUN go mod download
 # Copy the rest of your source code
 COPY . .
 
+# Run tests
+RUN go test ./...
+
+
 # Build the Go binary (static binary for scratch image)
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o server .
 
