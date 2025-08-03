@@ -8,15 +8,15 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
-	"log"
+	"log/slog"
 	"net/http"
 )
 
 func SetupRouter() http.Handler {
-	log.Println("Setting up router")
+	slog.Debug("Setting up router")
 	router := chi.NewRouter()
 
-	router.Use(middleware.Logger)
+	router.Use(StructuredLogger(slog.Default()))
 	router.Use(middleware.Recoverer)
 	router.Use(middleware.Compress(5))
 	router.Use(cors.Handler(cors.Options{
@@ -30,7 +30,7 @@ func SetupRouter() http.Handler {
 	registerSystemCallHandler(router)
 	db := getDb()
 	registerSampleCallHandler(db, router)
-	log.Println("Router setup complete")
+	slog.Debug("Router setup complete")
 	return router
 }
 
