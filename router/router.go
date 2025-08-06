@@ -3,6 +3,7 @@ package router
 import (
 	sampleHandler "chi-boilerplate/api/sample"
 	systemHandler "chi-boilerplate/api/system"
+	"chi-boilerplate/internal"
 	sampleRepo "chi-boilerplate/repo/sample"
 	"chi-boilerplate/service/sample"
 	"github.com/go-chi/chi/v5"
@@ -16,7 +17,7 @@ func SetupRouter() http.Handler {
 	slog.Debug("Setting up router")
 	router := chi.NewRouter()
 
-	router.Use(StructuredLogger(slog.Default()))
+	router.Use(internal.StructuredLogger(slog.Default()))
 	router.Use(middleware.Recoverer)
 	router.Use(middleware.Compress(5))
 	router.Use(cors.Handler(cors.Options{
